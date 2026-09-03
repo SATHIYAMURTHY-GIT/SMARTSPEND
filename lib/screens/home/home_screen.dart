@@ -646,20 +646,11 @@ class _CategorySpendingChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = Theme.of(context).colorScheme;
-    final palette = <Color>[
-      colors.primary,
-      colors.secondary,
-      colors.tertiary,
-      colors.primaryContainer,
-      colors.secondaryContainer,
-    ];
-
     final sections = categories.asMap().entries.map((entry) {
       final category = entry.value;
       return PieChartSectionData(
         value: category.amount.toDouble(),
-        color: categoryColorForKey(category.name, palette: palette),
+        color: categoryColorForKey(category.name),
         radius: 36,
         title: '',
       );
@@ -670,7 +661,7 @@ class _CategorySpendingChart extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: categories.asMap().entries.map((entry) {
         final category = entry.value;
-        final chipColor = categoryColorForKey(category.name, palette: palette);
+        final chipColor = categoryColorForKey(category.name);
 
         return Padding(
           padding: const EdgeInsets.only(bottom: 6),

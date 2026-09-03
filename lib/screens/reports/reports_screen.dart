@@ -445,6 +445,7 @@ class _CategoryBreakdownList extends StatelessWidget {
     return Column(
       children: data.categoryBreakdown.map((entry) {
         final share = total <= 0 ? 0 : entry.percentOfTotal;
+        final color = categoryColorForKey(entry.name);
         return Padding(
           padding: const EdgeInsets.only(bottom: 12),
           child: Column(
@@ -452,6 +453,15 @@ class _CategoryBreakdownList extends StatelessWidget {
             children: [
               Row(
                 children: [
+                  Container(
+                    width: 10,
+                    height: 10,
+                    margin: const EdgeInsets.only(right: 8),
+                    decoration: BoxDecoration(
+                      color: color,
+                      shape: BoxShape.circle,
+                    ),
+                  ),
                   Expanded(
                     child: Text(
                       entry.name,
@@ -479,6 +489,8 @@ class _CategoryBreakdownList extends StatelessWidget {
                 value: total <= 0 ? 0 : (entry.amount / total).clamp(0.0, 1.0),
                 minHeight: 8,
                 borderRadius: BorderRadius.circular(999),
+                color: color,
+                backgroundColor: color.withValues(alpha: 0.18),
               ),
             ],
           ),

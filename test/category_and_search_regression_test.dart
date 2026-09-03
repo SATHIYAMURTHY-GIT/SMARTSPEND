@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:smartspend/core/utils/formatters.dart';
 import 'package:smartspend/models/expense.dart';
@@ -181,6 +182,37 @@ void main() {
       expect(csv, contains('"Lunch, ""special""\norder"'));
       expect(csv, contains('"Credit, Card"'));
       expect(csv, contains('"https://example.com/a,b.csv"'));
+    });
+  });
+
+  group('centralized category color mapping', () {
+    test('maps all standard categories to their permanent consistent colors', () {
+      expect(categoryColorForKey('Food'), const Color(0xFF8E24AA));
+      expect(categoryColorForKey('Transport'), const Color(0xFF1E88E5));
+      expect(categoryColorForKey('Shopping'), const Color(0xFFFB8C00));
+      expect(categoryColorForKey('Bills'), const Color(0xFF43A047));
+      expect(categoryColorForKey('Education'), const Color(0xFFE53935));
+      expect(categoryColorForKey('Entertainment'), const Color(0xFFFDD835));
+      expect(categoryColorForKey('Healthcare'), const Color(0xFFE91E63));
+      expect(categoryColorForKey('Travel'), const Color(0xFF00897B));
+      expect(categoryColorForKey('Subscriptions'), const Color(0xFF3949AB));
+      expect(categoryColorForKey('Other'), const Color(0xFF757575));
+    });
+
+    test('colors remain permanent regardless of casing, whitespace or order', () {
+      expect(categoryColorForKey('  food  '), const Color(0xFF8E24AA));
+      expect(categoryColorForKey('TRANSPORT'), const Color(0xFF1E88E5));
+      expect(categoryColorForKey('shopping'), const Color(0xFFFB8C00));
+      expect(categoryColorForKey('Groceries'), const Color(0xFF8E24AA));
+      expect(categoryColorForKey('Utilities'), const Color(0xFF43A047));
+      expect(categoryColorForKey('Medical'), const Color(0xFFE91E63));
+      expect(categoryColorForKey('General'), const Color(0xFF757575));
+    });
+
+    test('custom categories receive deterministic, stable colors', () {
+      final color1 = categoryColorForKey('Gym Membership');
+      final color2 = categoryColorForKey('Gym Membership');
+      expect(color1, equals(color2));
     });
   });
 }
